@@ -1,21 +1,9 @@
 <?php
 
-/*******************************
- * make sure ajax is working otherwise the like button won't work
-*******************************/
-
-function add_ajax_url() {
-    echo '<script type="text/javascript">var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>';
-}
-// Add hook for admin <head></head>
-add_action('wp_head', 'add_ajax_url');
-
-
-
-/*******************************
+/*
  * likeCount:
  * Get current like count, this is used to show the amount of likes to the user
-*******************************/
+*/
 
 function likeCount($id){
 
@@ -30,11 +18,10 @@ function likeCount($id){
 }
 
 
-
-/*******************************
- * like_callback:
- * add or remove likes from the Wordpress metabox field
-*******************************/
+/*
+ * like_callback
+ * Add or remove likes from the Wordpress metabox field
+*/
 
 add_action('wp_ajax_like_callback', 'like_callback');
 add_action('wp_ajax_nopriv_like_callback', 'like_callback');
@@ -61,15 +48,16 @@ function like_callback() {
       $newvalue = $_SERVER['REMOTE_ADDR'];
    }
 
-
    // Check if the IP address is already present, if not, add it
    if(strpos($currentvalue, $_SERVER['REMOTE_ADDR']) === false){
       $nlikes = $likes + 1;
+
       if(update_post_meta($id, '_likers', $newvalue, $currentvalue) && update_post_meta($id, '_likes_count', $nlikes, $likes)){
          $feedback = array("likes" => likeCount($id), "status" => true);
       }
-   }else{
 
+   }else{
+      
       $key = array_search($_SERVER['REMOTE_ADDR'], $likesarray);
       unset($likesarray[$key]);
       $nlikes = $likes - 1;
@@ -85,4 +73,3 @@ function like_callback() {
    die(); // A kitten gif will be removed from the interwebs if you delete this line
 
 }
-?>
