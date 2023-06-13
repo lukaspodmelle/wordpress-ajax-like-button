@@ -1,8 +1,9 @@
 jQuery(document).ready(function($) {
 
-	/***************************************
-		ajax like shot feature
-	***************************************/
+	/*
+	* Ajax like shot
+	*/
+	
 	$(".like").stop().click(function(){
 
 		var rel = $(this).attr("rel");
@@ -24,9 +25,11 @@ jQuery(document).ready(function($) {
 				console.log(data.status);
 
 				if(data.status == true){
-					$(".like[rel="+rel+"]").html(data.likes + " likes").addClass("liked");
+					$("#like__count").html(data.likes);
+					$(".like[rel="+rel+"]").addClass("liked");
 				}else{
-					$(".like[rel="+rel+"]").html(data.likes + " likes").removeClass("liked");
+					$("#like__count").html(data.likes);
+					$(".like[rel="+rel+"]").removeClass("liked");
 				}
 
 			}
