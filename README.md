@@ -1,11 +1,10 @@
 WP like button (ajax)
 ===================
-An ajax like button for Wordpress that can be used anywhere you want.
+A like button for WordPress that can be used anywhere you want.
 
-**We have received a few questions about how we made the like button on [Draft.im](http://www.draft.im "Draft.im") so I decided to make it available on Github**. It's a Wordpress function that stores the IP address of those who like a post, post or custom post type post in a metabox. Simple yet effective.
+How it works: It's a WordPress function that stores the IP address of those who like in the post's metabox. Based on the IP address, it can remember who previously liked and keep the heart icon active ♥
 
-##Include the php files
-note: these should be included in the functions.php
+##Include the php files (functions.php):
 ```php
    <?php
    include_once('inc/like-metabox.php');
@@ -13,24 +12,69 @@ note: these should be included in the functions.php
    ?>
 ```
 
-##Enqueue the js file
-note: this also has to be added to the functions.php file, if there's already a "wp_enqueue_scripts" present just add the script to that function
+##Don't forget to enqueue the js file (functions.php):
 ```php
 <?php
-function enqueue_js_files() {
-
-   wp_register_script( 'like-post', get_template_directory_uri() . '/js/like-post.js', array('jquery') ,false,'1.0',true);
-   wp_enqueue_script( 'like-post' );
-
+function enqueue_scripts() {
+   wp_enqueue_script( 'like_post', get_template_directory_uri() . "/assets/js/like-post.js", array('jquery'), false, '1.0', true);  
 }
-add_action( 'wp_enqueue_scripts', 'enqueue_js_files' );
+add_action( 'wp_enqueue_scripts', 'enqueue_scripts' );
 ?>
 ```
 
-##Show the like link
-Make the like button show up in the front-end in it's most basic form, when the button has been clicked the js adds or removes the class "liked"
+##Localize ajax (functions.php):
+```php
+<?php
+function add_ajax_url() {
+    echo '<script type="text/javascript">var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>';
+}
+add_action('wp_head', 'add_ajax_url');
+?>
+```
+
+##Shortcode HTML structure (functions.php):
+```php
+<?php
+function like_button_shortcode() {
+
+    // Check IP address to see if the user has already liked
+    $ips = get_post_meta(get_the_ID(), '_likers');
+    $currentip = $_SERVER['REMOTE_ADDR'];
+
+    foreach ($ips as $value) {
+        if (strpos($value, $currentip) !== false) {
+            $results[] = $value;
+        }
+    }
+    if (! empty($results)) {
+        $userliked = "liked";
+    }
+    
+    // HTML content of the button
+    global $post;
+    ob_start();
+    ?>
+
+    <div class="like__container">
+        <div class="like__icon">
+            <a class="like <?= $userliked; ?>" rel="<?php echo $post->ID; ?>">
+                <svg class="icon__heart" fill="#ff0000" height="32" width="32" stroke="grey" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </a>
+        </div>
+        <div id="like__count"><?php echo likeCount($post->ID); ?></div>
+    </div>
+    
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'like-button', 'like_button_shortcode' );
+?>
+```
+
+##Show the like button on frontend
+Since a shortcode for the like button is created, you can simply use ``[like-button]`` anywhere on your site. If you want to use it inside a php page-template/template-part, use this instead:
 ```html
-<a class="like" rel="<?php echo $post->ID; ?>"><?php echo likeCount($post->ID); ?> likes</a>
+<?php echo do_shortcode("[like-button]"); ?>
 ```
 
 ###Show the metabox on multiple post types
