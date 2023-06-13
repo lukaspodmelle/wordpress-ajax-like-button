@@ -4,6 +4,8 @@ A like button for WordPress that can be used anywhere you want.
 
 It utilizes a post's metabox to store the number of likes, as well as the IP addresses of those who liked. Based on the IP address, it can remember who previously liked and keep the heart icon active. It's very easy to insert into your theme or site - using a shortcode.
 
+![wp-like-btn](https://github.com/lukaspodmelle/wordpress-ajax-like-button/assets/132982113/57fbf334-0787-42fb-87dd-7585d97c0e9a)
+
 ### Include the php files (functions.php):
 ```php
 <?php
