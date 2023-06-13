@@ -2,14 +2,14 @@ WordPress post like button ♥
 ===================
 A like button for WordPress that can be used anywhere you want.
 
-It utilizes a post's metabox to store the number of likes, as well as the IP addresses of those who liked. Based on the IP address, it can remember who previously liked and keep the heart icon active.
+It utilizes a post's metabox to store the number of likes, as well as the IP addresses of those who liked. Based on the IP address, it can remember who previously liked and keep the heart icon active. It's very easy to insert into your theme or site - using a shortcode.
 
 ### Include the php files (functions.php):
 ```php
-   <?php
-   include_once('inc/like-metabox.php');
-   include_once('inc/like-post.php');
-   ?>
+<?php
+include_once('inc/like-metabox.php');
+include_once('inc/like-post.php');
+?>
 ```
 
 ### Don't forget to enqueue the js file (functions.php):
@@ -78,7 +78,7 @@ Since a shortcode for the like button is created, you can simply use ``[like-but
 ```
 
 ### Show the metabox on multiple post types
-Simply add new ones to the array and the metabox will show up on those pages. Just don't forget to add the like button/link in the front-end
+Simply add new ones to the array and the metabox will show up on those pages. Just don't forget to add the like button in the front-end
 ```php
 // You can find this on line 9 in the like-metabox.php file
 $show_on = array('post', 'pets');
