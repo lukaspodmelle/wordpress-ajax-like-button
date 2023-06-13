@@ -1,10 +1,10 @@
-WP like button (ajax)
+WordPress post like button ♥
 ===================
 A like button for WordPress that can be used anywhere you want.
 
-How it works: It's a WordPress function that stores the IP address of those who like in the post's metabox. Based on the IP address, it can remember who previously liked and keep the heart icon active ♥
+It utilizes a post's metabox to store the number of likes, as well as the IP addresses of those who liked. Based on the IP address, it can remember who previously liked and keep the heart icon active.
 
-##Include the php files (functions.php):
+### Include the php files (functions.php):
 ```php
    <?php
    include_once('inc/like-metabox.php');
@@ -12,7 +12,7 @@ How it works: It's a WordPress function that stores the IP address of those who 
    ?>
 ```
 
-##Don't forget to enqueue the js file (functions.php):
+### Don't forget to enqueue the js file (functions.php):
 ```php
 <?php
 function enqueue_scripts() {
@@ -22,7 +22,7 @@ add_action( 'wp_enqueue_scripts', 'enqueue_scripts' );
 ?>
 ```
 
-##Localize ajax (functions.php):
+### Localize ajax (functions.php):
 ```php
 <?php
 function add_ajax_url() {
@@ -32,7 +32,7 @@ add_action('wp_head', 'add_ajax_url');
 ?>
 ```
 
-##Shortcode HTML structure (functions.php):
+### Shortcode HTML structure (functions.php):
 ```php
 <?php
 function like_button_shortcode() {
@@ -71,13 +71,13 @@ add_shortcode( 'like-button', 'like_button_shortcode' );
 ?>
 ```
 
-##Show the like button on frontend
+### Show the like button on frontend
 Since a shortcode for the like button is created, you can simply use ``[like-button]`` anywhere on your site. If you want to use it inside a php page-template/template-part, use this instead:
 ```html
 <?php echo do_shortcode("[like-button]"); ?>
 ```
 
-###Show the metabox on multiple post types
+### Show the metabox on multiple post types
 Simply add new ones to the array and the metabox will show up on those pages. Just don't forget to add the like button/link in the front-end
 ```php
 // You can find this on line 9 in the like-metabox.php file
