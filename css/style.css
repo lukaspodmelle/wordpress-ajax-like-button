@@ -1,0 +1,38 @@
+.like__container {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+.like__icon {
+	height: 32px;
+	width: 32px;
+}
+.icon__heart {
+	fill: transparent;
+}
+.icon__heart:hover {
+	cursor: pointer;
+}
+.liked svg {
+	-webkit-animation: scale-up-center 0.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	animation: scale-up-center 0.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	fill: #ff0000;
+	stroke: #ff0000;
+}
+a.like {
+    display: block;
+}
+@-webkit-keyframes scale-up-center {
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	50% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+	}
+	100% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
